@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* New palette: Teal (primary) + Coral (secondary) */
-  --primary: #0ea5a4; /* teal-500 */
-  --primary-dark: #0b6b66;
-  --secondary: #ff7a59; /* coral */
-  --secondary-dark: #e85f43;
+  /* Warm Purple palette */
+  --primary: #7c3aed; /* warm purple */
+  --primary-dark: #5b21b6;
+  --secondary: #f59e0b; /* amber accent */
+  --secondary-dark: #d97706;
 
   /* Background & text */
   --bg-light: #f3f7f8; /* soft page background */
@@ -30,7 +30,7 @@
   --transition: all 0.28s ease;
 
   /* Inner box background (subtle, uses tiny tint of primary -> secondary) */
-  --inner-bg: linear-gradient(180deg, rgba(14,165,164,0.03), rgba(255,122,89,0.01));
+  --inner-bg: linear-gradient(180deg, rgba(124,58,237,0.03), rgba(245,158,11,0.02));
   /* Fallback solid color */
   --inner-solid: #ffffff;
 }

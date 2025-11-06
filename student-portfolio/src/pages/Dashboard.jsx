@@ -38,7 +38,7 @@ export default function Dashboard() {
 
         <div className="card">
           <h3>Notes</h3>
-          <p className="muted">All uploads are simulated locally (frontend only). Refresh will persist some demo data to localStorage.</p>
+          
         </div>
       </div>
     </div>

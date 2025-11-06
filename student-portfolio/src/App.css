@@ -12,7 +12,7 @@
   flex: 1;
 }
 
-/* Navigation */
+
 .navbar {
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -578,6 +578,13 @@
   color: var(--success);
   font-weight: 500;
   margin-top: 0.5rem;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(124,58,237,0.02), transparent);
+  padding: 1rem 0;
 }
 
 /* Responsive Design */

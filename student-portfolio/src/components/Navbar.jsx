@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="nav-left">
-        <Link to="/dashboard" className="brand">StudPort</Link>
+        <Link to="/dashboard" className="brand">Student Showcase</Link>
       </div>
 
       <nav className="nav-right">
