@@ -41,14 +41,24 @@ export function AuthProvider({ children }) {
   }, [])
 
   const login = ({ username, password }) => {
-    // Look up user from persisted users
-    const found = users.find(u => u.username === username && u.password === password)
+    // Read users from localStorage at login time to avoid stale state issues
+    const rawUsers = localStorage.getItem('users')
+    let lookup = users
+    if (rawUsers) {
+      try {
+        lookup = JSON.parse(rawUsers)
+      } catch (e) {
+        console.error('Failed to parse users from localStorage during login', e)
+      }
+    }
+    const found = lookup.find(u => u.username === username && u.password === password)
     if (found) {
       const fakeToken = `token-${username}-${Date.now()}`
       const userObj = { name: found.name, username: found.username, role: found.role }
       setUser(userObj)
       setToken(fakeToken)
       localStorage.setItem('auth', JSON.stringify({ user: userObj, token: fakeToken }))
+      console.info('login successful for', username)
       return { ok: true }
     }
     return { ok: false, error: 'Invalid credentials' }
