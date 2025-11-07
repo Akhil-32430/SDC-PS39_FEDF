@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <div className="card auth-card">
       <h2>Login</h2>
-      <p className="muted">Use <strong>akhil/akhil</strong> (student) or <strong>admin/admin</strong> (admin)</p>
+      <p className="muted">Use <strong>student/student</strong> (student) or <strong>admin/admin</strong> (admin)</p>
       <form onSubmit={handleSubmit} className="form">
         <label>
           Username

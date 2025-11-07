@@ -25,9 +25,9 @@ export function AuthProvider({ children }) {
   const login = ({ username, password }) => {
     // Demo fake authentication.
     // Replace this with real API call (fetch/axios) and store real token.
-    if (username === 'akhil' && password === 'akhil') {
+    if (username === 'student' && password === 'student') {
       const fakeToken = 'token-demo-123'
-      const userObj = { name: 'Akhil Bulusu', username: 'akhil', role: 'student' }
+      const userObj = { name: 'Student', username: 'student', role: 'student' }
       setUser(userObj)
       setToken(fakeToken)
       localStorage.setItem('auth', JSON.stringify({ user: userObj, token: fakeToken }))
