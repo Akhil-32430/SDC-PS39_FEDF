@@ -41,6 +41,10 @@ export function AuthProvider({ children }) {
   }, [])
 
   const login = ({ username, password }) => {
+    // Normalize inputs
+    const uname = (username || '').trim()
+    const pwd = password || ''
+
     // Read users from localStorage at login time to avoid stale state issues
     const rawUsers = localStorage.getItem('users')
     let lookup = users
@@ -51,35 +55,38 @@ export function AuthProvider({ children }) {
         console.error('Failed to parse users from localStorage during login', e)
       }
     }
-    const found = lookup.find(u => u.username === username && u.password === password)
+    const found = lookup.find(u => (u.username || '').trim() === uname && (u.password || '') === pwd)
     if (found) {
-      const fakeToken = `token-${username}-${Date.now()}`
+      const fakeToken = `token-${uname}-${Date.now()}`
       const userObj = { name: found.name, username: found.username, role: found.role }
       setUser(userObj)
       setToken(fakeToken)
       localStorage.setItem('auth', JSON.stringify({ user: userObj, token: fakeToken }))
-      console.info('login successful for', username)
+      console.info('login successful for', uname)
       return { ok: true }
     }
     return { ok: false, error: 'Invalid credentials' }
   }
 
   const register = ({ name, username, password, role = 'student' }) => {
-    if (!username || !password) return { ok: false, error: 'Missing fields' }
+    const uname = (username || '').trim()
+    const pwd = password || ''
+    if (!uname || !pwd) return { ok: false, error: 'Missing fields' }
     // check duplicate username
-    if (users.find(u => u.username === username)) {
+    if (users.find(u => (u.username || '').trim() === uname)) {
       return { ok: false, error: 'Username already exists' }
     }
-    const newUser = { name, username, password, role }
+    const newUser = { name: name || uname, username: uname, password: pwd, role }
     const updated = [...users, newUser]
     setUsers(updated)
     localStorage.setItem('users', JSON.stringify(updated))
     // auto-login newly registered user
-    const fakeToken = `token-${username}-${Date.now()}`
-    const userObj = { name, username, role }
+    const fakeToken = `token-${uname}-${Date.now()}`
+    const userObj = { name: newUser.name, username: newUser.username, role: newUser.role }
     setUser(userObj)
     setToken(fakeToken)
     localStorage.setItem('auth', JSON.stringify({ user: userObj, token: fakeToken }))
+    console.info('registered new user', newUser.username)
     return { ok: true }
   }
 
