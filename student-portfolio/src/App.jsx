@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
 import Footer from './components/Footer.jsx'
 import Login from './pages/Login.jsx'
+import Signup from './pages/Signup.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import MyProjects from './pages/student/ MyProjects.jsx'
 import Portfolio from './pages/student/Portfolio.jsx'
@@ -19,6 +20,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
           {/* Protected area */}
           <Route element={<RequireAuth />}>

@@ -6,6 +6,7 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
+  const [users, setUsers] = useState([])
   const navigate = useNavigate()
 
   // Initialize from localStorage
@@ -20,31 +21,56 @@ export function AuthProvider({ children }) {
         console.error('Failed to parse auth from localStorage', err)
       }
     }
+    // load registered users (demo persistence)
+    const rawUsers = localStorage.getItem('users')
+    if (rawUsers) {
+      try {
+        setUsers(JSON.parse(rawUsers))
+      } catch (e) {
+        console.error('Failed to parse users from localStorage', e)
+      }
+    } else {
+      // seed with demo accounts if none
+      const seed = [
+        { name: 'Student', username: 'student', password: 'student', role: 'student' },
+        { name: 'Admin User', username: 'admin', password: 'admin', role: 'admin' }
+      ]
+      setUsers(seed)
+      localStorage.setItem('users', JSON.stringify(seed))
+    }
   }, [])
 
   const login = ({ username, password }) => {
-    // Demo fake authentication.
-    // Replace this with real API call (fetch/axios) and store real token.
-    if (username === 'student' && password === 'student') {
-      const fakeToken = 'token-demo-123'
-      const userObj = { name: 'Student', username: 'student', role: 'student' }
+    // Look up user from persisted users
+    const found = users.find(u => u.username === username && u.password === password)
+    if (found) {
+      const fakeToken = `token-${username}-${Date.now()}`
+      const userObj = { name: found.name, username: found.username, role: found.role }
       setUser(userObj)
       setToken(fakeToken)
       localStorage.setItem('auth', JSON.stringify({ user: userObj, token: fakeToken }))
       return { ok: true }
     }
-
-    // also allow admin example
-    if (username === 'admin' && password === 'admin') {
-      const fakeToken = 'token-admin-456'
-      const userObj = { name: 'Admin User', username: 'admin', role: 'admin' }
-      setUser(userObj)
-      setToken(fakeToken)
-      localStorage.setItem('auth', JSON.stringify({ user: userObj, token: fakeToken }))
-      return { ok: true }
-    }
-
     return { ok: false, error: 'Invalid credentials' }
+  }
+
+  const register = ({ name, username, password, role = 'student' }) => {
+    if (!username || !password) return { ok: false, error: 'Missing fields' }
+    // check duplicate username
+    if (users.find(u => u.username === username)) {
+      return { ok: false, error: 'Username already exists' }
+    }
+    const newUser = { name, username, password, role }
+    const updated = [...users, newUser]
+    setUsers(updated)
+    localStorage.setItem('users', JSON.stringify(updated))
+    // auto-login newly registered user
+    const fakeToken = `token-${username}-${Date.now()}`
+    const userObj = { name, username, role }
+    setUser(userObj)
+    setToken(fakeToken)
+    localStorage.setItem('auth', JSON.stringify({ user: userObj, token: fakeToken }))
+    return { ok: true }
   }
 
   const logout = () => {
@@ -55,7 +81,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   )
