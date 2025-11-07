@@ -613,4 +613,59 @@
     width: 100%;
   }
 }
+
+/* Additional mobile improvements */
+@media (max-width: 600px) {
+  .brand { font-size: 1.125rem; }
+
+  /* Make nav links stack and be easier to tap */
+  .nav-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .nav-right a, .nav-right button, .nav-right .btn-link {
+    padding: 10px 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    background: transparent;
+    width: 100%;
+    text-align: right;
+  }
+
+  /* Make navbar content wrap and use column layout so brand sits above links */
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  /* Cards: full width with slightly smaller padding for mobile */
+  .card, .project-card, .stat-card, .timeline-content {
+    padding: 0.875rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Make project images shorter and responsive */
+  .project-card img {
+    height: 140px;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  /* Thumbnails stack nicely */
+  .thumb-placeholder { aspect-ratio: 4/3; }
+
+  /* Increase hit area for form fields and buttons */
+  .form input, .form textarea, .form .form-input {
+    padding: 0.9rem;
+  }
+
+  /* Footer full width */
+  .footer .container { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+}
 }
